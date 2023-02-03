@@ -1,0 +1,1663 @@
+							c++ and DS
+						!#$--------------$#!
+
+OOPs
+====
+
+Object Oriented Programming (OOP) in C++ Course: 
+freeCodeCamp.org
+/////////////////////////////////////////////////
+*************************************************
+OOP
+----
+>> Its a programming paradigm based on the concepts of objects. 
+   Objects holds data and code. Data carried by an object becomes its attribute
+   and code becomes method/Procedures.
+>> Objects own methods can access and modify its own data fields.
+>> In OOProgramming, computer programmes are designed by making objects as the basic block that 
+	interacts with each other.
+>> There are many oop based languages but the popular once are class-based. Meaning that objects 
+	are instances of calsses. Classes determines the type of objects.
+>> A class is a user defined data type.In oop a class is an extensible program code template for creating objects.
+   For e.g., vehicle can be a class, car or motor bike will beocome objects(instances of class).
+
+std header file 
+---------------
+#include <iostream>
+
+Defining a class
+-----------------
+
+class Employee {
+	/*Below are the members inside the class*/
+	string name;
+	string team;
+	int age;
+};
+>> class acts like a blue print or a template.
+int main() {
+	Employee e1;
+	return 0;
+}
+
+>> A class has attributes and methods.
+>> Variables(data containers) are attributes.
+>> Methods are functions. Methods describe certain behaviour.
+
+Q) Can we access members inside the class using e1 ? For e.g., e1.name inside main().
+
+Access modifiers
+----------------
+** Private : Anything inside the class which is private cannot be accessed outside the class.
+             its hidden. Even if we make an object of the same class(lets say in main function), that 
+			 object cannot access the private attributes.
+			 
+** Public  : Public members can be accessed outside the class.
+
+** Protected : will see later ...
+
+>> Every member is private by default. Above template is equal to 
+
+class Employee {
+private:
+	string name;
+	string team;
+	int age;
+};
+
+Accessing data using public access modifiers
+--------------------------------------------
+class Employee {
+public:
+	string name;
+	string team;
+	int age;
+};
+int main() {
+	Employee e1;
+	e1.name = "Sarath";
+	e1.team = "AI";
+	e1.age = 29;
+	return 0;
+}
+>> private members can't be accessed in main as shown above.
+------------------------------------------------------------
+Methods
+--------
+class Employee {
+public:
+	string name;
+	string team;
+	int age;
+	void introduceYourself(){
+	std::cout <<"Name" <<name <<std::endl;
+	std::cout <<"team" <<team <<std::endl;
+	std::cout <<"age" <<age <<std::endl;
+	}
+};
+int main() {
+	Employee e1,e2;
+	e1.name = "Sarath";
+	e1.team = "AI";
+	e1.age = 29;
+	e1.introduceYourself();
+	e2.name = "Sarath";
+	e2.team = "AI";
+	e2.age = 29;
+	e2.introduceYourself();
+	return 0;
+}
+---------------------------------------------------------------------------------------------
+Q) What if we want to create 100 employees ?
+Ans : We have to create 100 objects. There is a better way to construct 
+	  objects rather than making one by one as in above main function.
+	  
+Constructor 
+===========
+>> Constructor is nothing but a method used to create objects. If programmer had not 
+	made a constructor then default constructor gets into action.
+>> Default constructor is provided by the compiler which will assign some 
+	random values to the attributes.This happens at the time of object definition.
+>> default constructor exist until we make a constructor.
+>> default constructor will not have any arguments.
+>> copy constructor : copies attributes from one to another.
+>> There is a default copy constructor. Why we need a user defined copy constructor ?
+>> default copy can do a shallow copy but the user defined copy con do a deep copy.
+>> In shallow copy only pointers are copied but in deep copy pointers and elements 
+	where it point to also get copied.
+
+3 rules to make a constructor
+=============================
+1. Constructor has no return type.
+2. Has the same name as class it belong to.
+3. Must be public.There are situations where we make conctructor private.
+
+////////////////////Example Program///////////////////////////////////////////////////////
+#include <iostream>
+using std::string;
+class Employee {
+public:
+	string Name;
+	string Team;
+	int Age;
+	Employee(string name, string team, int age) {
+		Name = name;
+		Team = team;
+		Age = age;
+	}
+	Employee() {
+		cout << "default constructor" << endl;
+	}
+	Employee(Employee &e){
+		cout << "copy constructor" << endl;
+		Name = e.name;
+		Team = e.team;
+		Age = e.age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "team : " << Team << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+};
+
+int main() {
+	Employee e1 = Employee("Sarath","ML",29); //or Employee e1("Sarath","ML",29);
+	e1.introduceYourself();
+	Employee e2 = e1; //calling the copy constructor.
+	return 0;
+}
+
+Destructor
+==========
+>> deletes an object when it goes out of scope.
+>> called when an object goes out of scope.
+>> cannot free run time allocated memories.
+>> has to use delete or free to free heap memory.
+>> free if the memory is allocated using malloc(c style) and delete if the memory is 
+   allocated using new.
+///////////////////////////////E.G., Code ////////////////////////////////
+~Employee(){
+cout<<"destructor called" << endl;
+}
+
+
+Note : name of(identifier) arguments of methods inside a class should not be same as the name of attributes.
+compiler generates a warning in most cases.
+----------------------------------------------------------------------------------------------------------------
+
+ Four Most Important Concepts in OOP
+ ===================================
+----------------------------------------------------------------
+ 1> Encapsulation 2> Abstaction 3> Inheritance 4> Polymorphism |
+----------------------------------------------------------------
+ 1> Encapsulation
+ ****************
+>> Idea of bundling/tieing together data and the methods which operate on that data so that they are grouped together within a class.
+>> Done to prevent anything or anybody outside our class to modify or directly interact with the data.
+>> We can let other classes or objects of the same class(defined outside the same class) interact with properties(attributes) of our class through specific public methods(functions).
+>> Methods are used to access the encapsulated properties(attributes) of a class. Generally "getters" and "setters" are used for this purpose.
+>> To encapsulate an attribute(data) keep that attribute under "private" access modifiers.
+
+//////////////////////////Example code//////////////////////////////////////////////////////////
+
+#include <iostream>
+using std::string;
+class Employee {
+private:
+	string Name;
+	string Company;
+	int Age;
+public:
+/*getters and setters*/
+	void setName(string name) {
+		Name = name;
+	}
+	string getName() {
+		return Name;
+	}
+	void setCompany(string company) {
+		Company = company;
+	}
+	string getCompany() {
+		return Company;
+	}
+	void setAge(int age) {
+		Age = age;
+	}
+	int getAge() {
+		return Age;
+	}
+	Employee(string name, string company, int age) {
+		Name = name;
+		Company = company;
+		Age = age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "Company : " << Company << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+};
+
+int main() {
+	Employee e1 = Employee("Sarath","Google",29);
+	e1.introduceYourself();
+	e1.setName("Steve");
+	e1.setAge(35);
+	e1.setCompany("Apple");
+	std::cout << "Name of the new employee is : " << e1.getName() \
+		 <<"\ncompany: "<<e1.getCompany() <<"\n age is : "<<e1.getAge() << std::endl;
+	return 0;
+}
+
+>> Methods (getters and setters) are public but attributes used by them are hidden in class.This is how we do encapsulation. Tieing up data with methods. Hidden datas are only accessible through public methods.
+	
+  2> Abstaction
+  *************
+
+>> Hiding complex things behind a procedure that makes those things look simpler.
+>> Lets understand this with an example. Consider an application to evaluate the performance of an employee. 
+>> We will create a class with all complex functions to evaluate the rating of an employee, but we don't need to provide this complex class to the user. User need something simple an interface that is more simlple.
+>> How do we create this interface ? By using abstract classes.
+
+##############################################################################################
+//////////Program to make an interface to decide promotion status of an employee /////////////
+
+steps 
+-----
+1. Define an absract class. Syntax same as normal class. Methods 
+
+class AbstractEmploye { //name  can be any valid identifier.
+	virtual void askForPromotion() = 0;  //method is pure virtual method.
+};
+
+2. A main/complex class signs a contract with abstact class.
+
+class Employee:AbstractEmploye {
+private:
+	string Name;
+	...........
+	...........
+	......
+};
+3. Any main class who signs a contract with abstract class has to provide(define) those methods which are defined
+   inside the absract class. In this case "askForPromotion".
+
+	// giving promotion based on age.
+	void askForPromotion() {
+		if (Age >= 30)
+			std::cout << Name << " you are promoted" << std::endl;
+		else
+			std::cout << Name << " sorry you are not promoted" << std::endl;
+	}   
+   
+
+4. Usage 
+
+	Employee e1 = Employee("erin","Google",30);
+	Employee e2 = Employee("john", "Google", 25);
+	e1.askForPromotion();
+	e2.askForPromotion();
+
+///////////////////////////////whole code/////////////////////////////////////
+#include <iostream>
+using std::string;
+class AbstractEmploye {
+	virtual void askForPromotion() = 0;
+};
+class Employee:AbstractEmploye {
+private:
+	string Name;
+	string Company;
+	int Age;
+public:
+/*getters and setters*/
+	void setName(string name) {
+		Name = name;
+	}
+	string getName() {
+		return Name;
+	}
+	void setCompany(string company) {
+		Company = company;
+	}
+	string getCompany() {
+		return Company;
+	}
+	void setAge(int age) {
+		Age = age;
+	}
+	int getAge() {
+		return Age;
+	}
+	Employee(string name, string company, int age) {
+		Name = name;
+		Company = company;
+		Age = age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "Company : " << Company << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+	void askForPromotion() {
+		if (Age >= 30)
+			std::cout << Name << " you are promoted" << std::endl;
+		else
+			std::cout << Name << " sorry you are not promoted" << std::endl;
+	}
+};
+
+int main() {
+	Employee e1 = Employee("erin","Google",30);
+	Employee e2 = Employee("john", "Google", 25);
+	e1.askForPromotion();
+	e2.askForPromotion();
+	
+	return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+ 3> Inheritance
+ ***************
+
+>> There will be a base/super/parent class. If any other class decided to inherit the parent class then the inherited class is going to obtain all the attributes and behaviours(methods) of the parent class. We call this inherited class as derived/sub/child class.
+>> Additionally child class can have its own members specific to it, that are not present in the parent.
+
+>> For e.g., If i have a base class for car which has attributes like name, model, price etc also methods such as drive then we can make derived classes for electric cars and petrol cars which will inherit the base class car. Electric cars can have its own methods such as charge and attributes such as battery status. Petrol cars will have methods such as fillPetrol and attributes such as fuel status. 
+
+/////////////////////////////////////code////////////////////////////////////////////////////////////////////////////////////
+/* Lets make a derived class Developer and make some attributes specific to derived class*/
+
+#include <iostream>
+using std::string;
+class AbstractEmploye {
+	virtual void askForPromotion() = 0;
+};
+class Employee:AbstractEmploye {
+private:
+	string Name;
+	string Company;
+	int Age;
+public:
+/*getters and setters*/
+	void setName(string name) {
+		Name = name;
+	}
+	string getName() {
+		return Name;
+	}
+	void setCompany(string company) {
+		Company = company;
+	}
+	string getCompany() {
+		return Company;
+	}
+	void setAge(int age) {
+		Age = age;
+	}
+	int getAge() {
+		return Age;
+	}
+	Employee(string name, string company, int age) {
+		Name = name;
+		Company = company;
+		Age = age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "Company : " << Company << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+	void askForPromotion() {
+		if (Age >= 30)
+			std::cout << Name << " you are promoted" << std::endl;
+		else
+			std::cout << Name << " sorry you are not promoted" << std::endl;
+	}
+};
+class Developer:Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+};
+
+int main() {
+	Employee e1 = Employee("erin","Google",30);
+	Employee e2 = Employee("john", "Google", 25);
+	e1.askForPromotion();
+	e2.askForPromotion();
+    Developer d; 
+	
+	return 0;
+}
+
+Note:
+** object 'd' will throw an error saying that there is a missing constructor. Every object will get a default constructor until a constructor is defined by user. Here Developer has no constructor but the parent class Employee has one. We have to define a constructor for the derived class Developer as well. 
+------------------------------------------------------------------------------------------------------------------------------------
+/*making a conctructor */
+
+class Developer:Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+};
+
+int main() {
+	Employee e1 = Employee("Dishant","Google",30);
+	Employee e2 = Employee("naveen", "Google", 25);
+	e1.askForPromotion();
+	e2.askForPromotion();
+    Developer d = Developer("steve","Apple",20,"c++"); 
+	
+	return 0;
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+/* lets make a new method*/
+
+class Developer:Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+        void FixBug(){
+            cout << getName() << "is fixing bug using" << FavProgrmngLang << endl;
+        }
+};
+
+int main() {
+    Developer d = Developer("Steve","Apple",20,"c++"); 
+    d.FixBug();
+    
+	return 0;
+}
+
+Note : Here in the above 'FixBug' method we are accessing the attribute 'FavProgrmngLang' directly and the attribute 'Name' from class 'Employee' using getters(getName). Can we access property 'Name' directly ?
+
+Ans : We cannot if the property 'Name' is private because private properties can be only accessed in the class itself not even in the derived class.
+       
+Q) How to access the property 'Name' ?
+Ans, Make the access modifier as 'protected'. protected make properties available in derived class.
+
+
+////////////////////////////////code//////////////////////////////////////////////////////////////////////////////////////
+class Employee:AbstractEmploye {
+private:
+	string Company;
+	int Age;
+protected:
+    string Name;
+    
+public:
+/*getters and setters*/
+	void setName(string name) {
+		Name = name;
+	}
+	string getName() {
+		return Name;
+	}
+	void setCompany(string company) {
+		Company = company;
+	}
+	string getCompany() {
+		return Company;
+	}
+	void setAge(int age) {
+		Age = age;
+	}
+	int getAge() {
+		return Age;
+	}
+	Employee(string name, string company, int age) {
+		Name = name;
+		Company = company;
+		Age = age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "Company : " << Company << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+	void askForPromotion() {
+		if (Age >= 30)
+			std::cout << Name << " you are promoted" << std::endl;
+		else
+			std::cout << Name << " sorry you are not promoted" << std::endl;
+	}
+};
+
+class Developer:Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+        void FixBug(){
+            cout << Name << "is fixing bug using" << FavProgrmngLang << endl;
+        }
+};
+
+int main() {
+    Developer d = Developer("Steve","Apple",20,"c++"); 
+    d.FixBug();
+    
+	return 0;
+}
+
+Note : We were able to access private and public, attributes or methods from the parent class Employee in the derived class Developer but can we access the same in main() ? 
+Ans : Not possible because the inheritance 'Developer:Employee' is private by default. 
+
+Q) How to access it ?
+Ans. Make the inheritance public.
+
+e.g.,
+
+class Developer:public Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+        void FixBug(){
+            cout << Name << "is fixing bug using" << FavProgrmngLang << endl;
+        }
+};
+
+int main() {
+    Developer d = Developer("Steve","Apple",20,"c++"); 
+    d.FixBug();
+    d.askForPromotion(); //now we can access the method askForPromotion.
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+ 4> Polymorphism - poly means many and morph means forms
+ ****************
+ 
+>> Polymorphism describes the ability of an object or method to take many forms.
+>> The most common use of polymorphism is when a parent class reference(pointer) is used to refer to a child class object.
+
+Lets see in detail what the above sentence means :
+
+>> will make one more derived class.
+class Employee:AbstractEmploye {
+private:
+	string Company;
+	int Age;
+protected:
+    string Name;
+    
+public:
+/*getters and setters*/
+	void setName(string name) {
+		Name = name;
+	}
+	string getName() {
+		return Name;
+	}
+	void setCompany(string company) {
+		Company = company;
+	}
+	string getCompany() {
+		return Company;
+	}
+	void setAge(int age) {
+		Age = age;
+	}
+	int getAge() {
+		return Age;
+	}
+	Employee(string name, string company, int age) {
+		Name = name;
+		Company = company;
+		Age = age;
+	}
+	void introduceYourself() {
+		std::cout << "Name : " << Name << std::endl;
+		std::cout << "Company : " << Company << std::endl;
+		std::cout << "age : " << Age << std::endl;
+	}
+	void askForPromotion() {
+		if (Age >= 30)
+			std::cout << Name << " you are promoted" << std::endl;
+		else
+			std::cout << Name << " sorry you are not promoted" << std::endl;
+	}
+    void work(){
+        cout << Name << "is checking mails and task logs and doing work" << endl;
+    }
+};
+
+class Developer:public Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+        void FixBug(){
+            cout << Name << "is fixing bug using" << FavProgrmngLang << endl;
+        }
+};
+
+class Teacher:public Employee{
+    private:
+        string Subject; //attribute specific to Teacher.
+    public:
+        void setSubject(string sub){
+            Subject = sub;
+        }
+        Teacher(string name, string company, int age,string sub)
+            :Employee(name,company,age)
+        {
+            Subject = sub;
+        }
+        void PrepareLesson(){
+            cout << Name << "is preparing lessons from " << Subject << endl;
+        }
+};
+
+int main() {
+    Developer d = Developer("Steve","Apple",20,"c++"); 
+    Teacher t = Teacher("Arun","cool school",25,"history"); 
+    
+    Employee *e1 = &d; //using a parent class reference to refer to a child class object.
+    Employee *e2 = &t; //using a parent class reference to refer to a child class object.
+    /*
+        Note : Advantage of accessing the derived class using parent class reference is that we can have 
+               many derived classes and access them using same reference.
+    
+    */
+    /* both of the below statements will execute work function from the parent class Employee. */ 
+    e1->work();
+    e2->work();
+    /* What if i want to have specific work function for each derived class ? 
+         Yes we can add work function. See the below implementation.
+    */
+    
+    
+	return 0;
+} 
+
+------------------------------------------------------------------------------------------------------------------
+class Developer:public Employee{
+    private:
+        string FavProgrmngLang; //attribute specific to Developer.
+    public:
+        void setPgmngLang(string lang){
+            FavProgrmngLang = lang;
+        }
+        Developer(string name, string company, int age,string favProgrmngLang)
+            :Employee(name,company,age)
+        {
+            FavProgrmngLang = favProgrmngLang;
+        }
+        void FixBug(){
+            cout << Name << "is fixing bug using" << FavProgrmngLang << endl;
+        }
+        
+        virtual void work(){
+        cout << Name << "is writing code in " << FavProgrmngLang << endl;
+    }
+};
+
+class Teacher:public Employee{
+    private:
+        string Subject; //attribute specific to Teacher.
+    public:
+        void setSubject(string sub){
+            Subject = sub;
+        }
+        Teacher(string name, string company, int age,string sub)
+            :Employee(name,company,age)
+        {
+            Subject = sub;
+        }
+        void PrepareLesson(){
+            cout << Name << "is preparing lessons from " << Subject << endl;
+        }
+        virtual void work(){
+        cout << Name << "is teaching " << Subject <<endl;
+        }
+};
+
+int main() {
+    Developer d = Developer("Steve","Apple",20,"c++"); 
+    Developer t = Teacher("Arun","cool school",25,"history"); 
+    
+    Employee *e1 = &d; //using a parent class reference to refer to a child class object.
+    Employee *e2 = &t; //using a parent class reference to refer to a child class object.
+    /*
+        Note : Advantage of accessing the derived class using parent class reference is that we can have 
+               many derived classes and access them using same reference.
+    
+    */
+    /* both of the below statements will execute work function from the respective derived classes. 
+        Note : The above statement is only true when the work function is made virtual using the keyword 'virtual'.
+               If we are not using the keyword virtual then the 'work' function that is going to be executed will be
+               from base class Employee.
+    
+    */ 
+    e1->work();
+    e2->work();
+
+	return 0;
+} 
+
+Note : 'work' function taking multiple forms -> Polymorphism
+----------------------------------------------------------------------------------------------------------------------
+
+
+********************************************************************************************
+Namespace
+=========				
+>> Namespace provide the space where we can define or declare identifier i.e. variable,  
+method, classes.
+
+>> Using namespace, you can define the space or context in which identifiers are defined 
+i.e. variable, method, classes. In essence, a namespace defines a scope.							
+
+Advantage of Namespace to avoid name collision
+==============================================
+>> Example, you might be writing some code that has a function called xyz() and there is 
+another library available which is also having same function xyz(). Now the compiler has 
+no way of knowing which version of xyz() function you are referring to within your code.
+
+>> A namespace is designed to overcome this difficulty and is used as additional information 
+to differentiate similar functions, classes, variables etc. with the same name available 
+in different libraries. The best example of namespace scope is the C++ standard library 
+(std) where all the classes, methods and templates are declared. Hence while writing a C++ 
+program we usually include the directive using namespace std;
+
+Defining a Namespace:
+====================
+The using directive:
+--------------------
+>> This directive tells the compiler that the subsequent code is making use of names in the 
+	specified namespace. 
+	
+namespace  namespace_name 
+{
+    // code declarations i.e. variable  (int a;)
+    method (void add();)
+    classes ( class student{};)
+}
+
+E.G., CODE
+----------
+#include <iostream>
+using namespace std;
+// first name space
+namespace first_space
+{
+  void func()
+  {
+     cout << "Inside first_space" << endl;
+  }
+}
+ 
+// second name space
+namespace second_space
+{
+  void func()
+  {
+     cout << "Inside second_space" << endl;
+  }
+}
+using namespace first_space;
+int main ()
+{
+   // This calls function from first name space.
+  func();
+  return 0;
+}
+
+output : Inside first_space
+
+--------------------------------------------------------------------------
+Nested Namespaces:
+===================
+
+SYNTAX:
+    namespace namespace_name1 
+    {
+          // code declarations
+          namespace namespace_name2 
+          {
+             // code declarations
+          }
+    }
+
+------------------------------------------------------------------------
+E.G., CODE
+-----------
+#include <iostream>
+using namespace std;
+ 
+// first name space
+namespace first_space
+{
+  void func()
+  {
+     cout << "Inside first_space" << endl;
+  }
+  // second name space
+  namespace second_space
+  {
+     void func()
+     {
+        cout << "Inside second_space" << endl;
+     }
+  }
+}
+using namespace first_space::second_space;
+int main ()
+{
+    // This calls function from second name space.
+      func();
+   
+      return 0;
+}
+
+output : Inside second_space
+
+****************************************************************************************
+
+cast operator in c++
+====================
+char ch = 'a';
+int i = int(ch);
+
+coma operator
+-------------
+causes a sequence of operations to be performed.
+
+a = (2,3,4); // a will have  in it.
+
+vector
+======
+#include <vector>
+using std::vector;
+
+   vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    for(int i = 0;i < v.size();i++){
+        cout << v[i] << endl; // 1 2 3
+    }
+
+    vector<int>::iterator itr;
+    for(itr = v.begin();itr!= v.end();itr++){
+        cout << *itr << endl; // 1 2 3
+    }
+    
+    for(auto element:v){
+        cout << element << endl; //1 2 3
+    }
+
+    v.pop_back(); //1 2 pops last element out.
+
+    vector<int> v1 (3, 50); //allocates a vector of 3 locations and fills it with 50.
+
+    for(auto element:v1){
+        cout << element << endl; //50 50 50
+    }
+
+    //using methods
+    swap(v,v1);
+    cout << "after swapping" << endl;
+       for(auto element:v){
+        cout << element << endl; //50 50 50
+    }
+
+   for(auto element:v1){
+        cout << element << endl; //1 2
+    }
+
+-----------------------------------------------------------------------------------
+// pass by reference
+====================
+
+//pass by reference
+void passByRef(int &v){
+    v++;
+}
+int main(){
+    int x = 0;
+    cout<<"before pass by reference : " << x << endl;
+    passByRef(x);
+    cout<<"after pass by reference : " << x << endl;
+    return 0;
+}
+
+****************************************************************************************************
+				OOPS in C++ Programes
+				=====================
+
+1. members
+2. getters and setters
+3. Constructor - 3 types
+4. Destructor
+5. operator overloading
+6. Inheritance
+	
+	
+
+Inheritance Types
+-----------------
+1. single inheritance
+2. Multiple inheritance
+3. Multi level inheritance
+4. Hybrid inheritance
+5. Hierarchical inheritance
+
+1. single inheritance
+----------------------
+>> class B inherits class A.
+>> protected and public - attributes or methods of class A gets inherited to class B.(comes to public of class B)
+>> private members will never be inheritted.
+
+>>>>>>>>code example
+
+class A{
+public:
+    void func1(){
+        cout <<"inherited from A"<<endl;
+    }
+protected:
+    void func2(){
+        cout <<"i am protected"<<endl;
+    }
+};
+class B: public A{
+public:
+    void func3(){
+        func2();
+    }
+    
+};
+int main(){
+    B v;
+    v.func1();
+    v.func3();
+return 0;
+}
+-----------------------------------------------------------------------------------
+
+2. Multiple inheritance
+-----------------------
+>> class c inherites multiple classes, class A and B.
+>> public and protected, methods and attributes of class A and B comes to public access of class C.
+
+>>>>>>>>>>>>>code  
+class A{
+public:
+    void func1(){
+        cout <<"inherited from A"<<endl;
+    }
+protected:
+    void func2(){
+        cout <<"i am protected from A"<<endl;
+    }
+};
+class B{
+public:
+    void func3(){
+        cout <<"from calss B"<<endl;
+    }
+};
+class C: public A, public B{
+public:
+    void func4(){
+        func2();
+    }
+    
+};
+int main(){
+    C v;
+    v.func4();
+    v.func1();
+    v.func3();
+    
+return 0;
+}
+
+------------------------------------------------------------------------------------
+3. Multilevel inheritance
+=========================
+>> class B inherits class A and class C inherits class B.
+>> All public and protected methods of class A can be accessed in class C.
+>> When class B inherits class A all public and protected members of class A will be available as public in B and when class C inherits class B all public and private members of class B becomes available as public in class C.
+
+>>>>>>>>>>>>code 
+class A{
+public:
+    void Afunc(){
+        cout << "inside class A" << endl;
+    }
+};
+class B : public A{
+public:
+    void Bfunc(){
+        cout <<"inside class B"<<endl;
+    };
+};
+class C : public B{
+public:
+    void Cfunc(){
+        cout << "inside class C"<< endl;
+    }
+}; 
+int main(){
+    C v;
+    v.Afunc();
+    v.Bfunc();
+    v.Cfunc();
+    return 0;
+}
+
+------------------------------------------------------------------------------------
+4. Hybrid inheritance
+=====================
+conside four classes A,B,C and D.
+
+>> class B inherits class A.
+>> class D inherits class B.
+>> class D inherits class C.
+>> all the public and private members of class A,B,C will be available in D.
+
+
+5. Hierarchical inheritance
+===========================
+							class A
+						
+			class B							class C
+				
+	class D			class E  		class F 			class Generally
+	
+>> class b inherits class A , class C inherits class A , class D inherits class B and so on.
+
+------------------------------------------------------------------------------------
+
+		Polymorphism
+		============
+							polymorphism
+							
+			compile time							      run time
+			
+function overloading     operator overloading             Virtual functions
+
+function overloading : function with same name and different number or type of arguments.
+
+operator overloadig : defining multiple operations(in a class) for same operator.
+
+virtual functions : lets say we have two simillar functions in base and derived class. When we call the fucntion compiler gets confused so we make one of the function virtual so that other is called. Generally one in the base class is made virtual.
+
+>>>>>>>>>>>>>>code
+//function overloading
+
+class funcOverloading{
+    public:
+    void fun(){
+        cout << "i have no arguments" << endl;
+    }
+    void fun(int x){
+        cout << "i have a single intiger argument = " << x << endl; 
+    }
+    void fun(double d){
+        cout << "i have a single double argument = " << d << endl;
+    }
+};
+
+int main(){
+    funcOverloading f;
+    f.fun();
+    f.fun(5);
+    f.fun(3.14);
+    return 0;
+}
+
+
+//operator overloading  
+
+class Cmplx{
+private:
+     int real,imag;
+public:
+     Cmplx(int r,int i){
+        real = r;
+        imag = i;
+     }
+     //default constructor
+     Cmplx(){
+     }
+     Cmplx operator + (Cmplx const &x){
+        Cmplx y;
+        y.real = real + x.real;
+        y.imag = imag + x.imag;
+        return y;
+     } 
+     void display(){
+        cout << real << " +i " << imag << endl;
+     }
+};
+
+int main(){
+    Cmplx a(4,2);
+	//init can be done in below way also.
+    Cmplx b = Cmplx(6,8);
+    Cmplx c = a + b;
+    c.display();
+}
+
+
+//Virtual functions
+// runtime polymorphism
+
+class base{
+public:
+    virtual void print(){
+        cout << "this is base class print"<<endl;
+    }
+    void display(){
+        cout<<"this is base class display"<<endl; 
+    }
+};
+class derived: public base{
+public:
+       void print(){
+        cout << "this is derived class print"<<endl;
+    }
+    void display(){
+        cout<<"this is derived class display"<<endl; 
+    }
+};
+int main(){
+    base *basePtr;
+    derived d;
+    basePtr = &d;
+    basePtr->print();
+    basePtr->display();
+}
+
+>> since the print function is virtual it get called from derived class instead of 
+   base class. If there was no print in derived class then print function from base will be called.
+>> print function got binded at run time. Selection of the function happend during 	the run time.
+
+Classes and Structs (C++)
+-----------------------------
+>> The two constructs are identical in C++ except that in structs the default    accessibility is public, whereas in classes the default is private.
+
+>> Classes and structs are the constructs whereby you define your own types. Classes and structs can both contain data members and member functions, which enable you to describe the type's state and behavior.
+
+>> The three class types are structure, class, and union. They are declared using the struct, class, and union keywords. 
+
+>>
+Structures						Classes						Unions
+----------                      -------                     -------
+class key is struct				class key is class			class key is union
+Default access is public		Default access is private	Default access is public
+No usage constraints			No usage constraints		Use only one member at a time
+
+
+								Trees
+								=====
+
+		Binary Tree
+		===========
+* data get stored in hierarchical manner.
+
+		Properties 
+		----------
+1. Maximum nodes at level L = 2^L . root is at level 0.
+2. Height of a tree = total number of levels. 
+3. Maximum nodes in a tree of height, H is 2^H - 1. 
+4. For N nodes, minimum possible height or minimum number of levels are 
+	log2(N+1).
+5. A binary tree with L leaves has atleast log2(N+1) + 1 number of levels.
+6. Height of a BST = depth of the tree's deepest node. 
+	In simple terms, height of a node = number of nodes till the deepest node, including the current node. 
+   intuition : height of a node = MAX(left height, right height) + 1
+7. Balanced height tree in BST.
+	>> for each node the absolute difference between the heights of the left subtree and right subtree <= 1. mod(lft hgt - rgt hgt) <= 1. 
+
+8. Diameter : Number of nodes in the longest path between any two leaves.
+
+	   
+            1    -> root node
+          /  \
+        2     3  -> leaves (last nodes)
+    
+		
+		Binary Tree Traversals
+		======================
+Preorder Traversal
+------------------
+>> 1. root  2.left subtree  3.right subtree
+
+
+Inorder Traversal
+------------------
+>> 1.left subtree  2. root  3.right subtree
+
+Postorder Traversal
+------------------
+>> 1.left subtree  2.right subtree 3. root  
+
+		Binary Search Tree
+		-------------------
+complexity -> o(n) to o(log(n))
+
+			
+				Set and Multiset, STL
+				====================
+
+							set
+						
+					ordered			unordered
+
+Ordered Set
+-----------
+Set
+---
+>> contains unique elements.
+>> implemented using balanced BST.
+>> Elements are in sorted order.
+>> Random access is not possible i.e., you cannot access ith element in 
+	O(1) or O(Log N)
+>> Present in #include<set> header file.
+
+Multi Set
+----------
+>> can contain duplicates.
+>> implemented using balanced BST.
+>> Elements are in sorted order.
+>> Random access is not possible i.e., you cannot access ith element in 
+	O(1) or O(Log N)
+>> Present in #include<set> header file.
+
+		Templates in C++
+		----------------
+A template is a simple yet very powerful tool in C++. The simple idea is to pass data type as a parameter so that we don’t need to write the same code for different data types. For example, a software company may need to sort() for different data types. Rather than writing and maintaining multiple codes, we can write one sort() and pass data type as a parameter. 
+C++ adds two new keywords to support templates: ‘template’ and ‘typename’. The second keyword can always be replaced by the keyword ‘class’.
+
+How Do Templates Work?
+ 
+Templates are expanded at compiler time. This is like macros. The difference is, that the compiler does type checking before template expansion. The idea is simple, source code contains only function/class, but compiled code may contain multiple copies of the same function/class. 
+
+
+Function Templates We write a generic function that can be used for different data types. Examples of function templates are sort(), max(), min(), printArray(). 
+
+refer : https://www.geeksforgeeks.org/templates-cpp/
+
+////code 
+#include <iostream>
+using namespace std;
+
+// One function works for all data types. This would work
+// even for user defined types if operator '>' is overloaded
+template <typename T> T myMax(T x, T y)
+{
+	return (x > y) ? x : y;
+}
+
+int main()
+{
+	cout << myMax<int>(3, 7) << endl; // Call myMax for int
+	cout << myMax<double>(3.0, 7.0)
+		<< endl; // call myMax for double
+	cout << myMax<char>('g', 'e')
+		<< endl; // call myMax for char
+
+	return 0;
+}
+
+************************************************************************************
+The C++ Standard Template Library (STL)
+---------------------------------------
+
+The Standard Template Library (STL) is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms, and iterators. It is a generalized library and so, its components are parameterized. Working knowledge of template classes is a prerequisite for working with STL.
+
+STL has 4 components:
+
+Algorithms
+Containers
+Functions
+Iterators
+
+refer : https://www.geeksforgeeks.org/the-c-standard-template-library-stl/
+
+set::lower_bound() function in C++ STL
+---------------------------------------
+The set::lower_bound() is a built-in function in C++ STL which returns an iterator pointing to the element in the container which is equivalent to k passed in the parameter. In case k is not present in the set container, the function returns an iterator pointing to the immediate next element which is just greater than k. If the key passed in the parameter exceeds the maximum value in the container, then the iterator returned points to the element beyond last element in the set container. 
+
+refer : https://www.geeksforgeeks.org/set-lower_bound-function-in-c-stl/
+
+>> Time complexity : insertion, deletion, lower/upper bound -> O(log n)
+
+
+			un-Ordered Set
+			-------------
+>> contains unique elements.
+>> implemented using Hashing.
+>> Elements are not in sorted order.
+>> Random access is not possible i.e., you cannot access ith element in 
+	O(1) or O(Log N)
+>> Present in #include<unordered_set> header file.
+
+Time complexities
+------------------
+insertion : O(1) in avg case , O(N) in worst case.
+deletion : O(1) in avg case , O(N) in worst case.
+lower/upper bound : NA.
+
+						Heaps
+						=====
+>> Binary tree based data structure.
+>> not necessarily balanced(not BST). 
+>> any array can be visualized as a heap.
+>> once we sort the array it becomes either a max-heap or min-heap. 
+   In other words max-heap is an array sorted in ascending order. min-heap is an array sorted in descending order.
+   
+Max Heap
+-------
+>> root greater than all the elements in its subtree.
+>> if the above rule is satisfied by all nodes in a tree, we call it Max heap.
+
+Min heap
+--------
+>> root lesser than all the elements in its subtree.
+>> if the above rule is satisfied by all nodes in a tree, we call it Min heap.
+
+				Complete Binary Tree
+				====================
+				
+We know a tree is a non-linear data structure. It has no limitation on the number of children. A binary tree has a limitation as any node of the tree has at most two children: a left and a right child.
+
+What is a Complete Binary Tree?
+A complete binary tree is a special type of binary tree where all the levels of the tree are filled completely except the lowest level nodes which are filled from as left as possible.
+
+
+						Hashing
+						=======
+
+>> Lets say we have some data to be stored for e.g., name and roll numbers, we can use the roll numbers as the index of the locations where names are stored. Advantage of this is that to get the names we have to use the roll number as index and address the array using the roll number. This is called direct addressing.
+
+>> In the above example roll number was the key to store the data "name".
+
+>> Process of converting a key to an address(index of array) is called hashing.
+It is done through a hash function.
+
+>>  key --> hashfunction --> Address(index)
+
+>>  Key can be anything for e.g., intiger, string etc
+
+>> Ideally a hash function should give unique address for all keys.
+
+>> e.g., of a key to address conversion is add all the digits in key and the sum
+   represents the index.
+>> Hashing functions can be truncation, modulo division, midsquare method etc.
+  
+			collision 
+			---------
+>> same adress for multiple keys. keys which are mapped to same address are called
+	synonyms.
+			
+			collision handling
+			------------------
+		1. Seperate Chaining
+		2. Open Addressing
+
+1. seperate chaining
+   -----------------
+>> If there is a collision then create a chain of values at same key using linked list. Here the hash table does not contain actual keys and records but it is just 
+an array of pinters, where each pointer points to a linked list. All elements 
+having the same hash address i will be stored in a seperate node in the linked list who's head(starting address) is at hashTable[i].
+
+2. Open Addressing(closed Hashing)
+   ------------------------------
+	I. Linear Probing
+	II. Quadratic probing
+	III. Double Hashing
+
+I. Linear Probing
+-----------------
+>> If address given by hash fucntion is already occupied then the key will be inserted in the next empty position in the hash table. While probing the array for
+empty positions, we assume that the array is closed or circular i.e., if array size 
+is N then after (N - 1)-th position, search will resume from 0-th position of the array.
+
+>> H(k,i) = (h(k) + i) mod Tsize  ; i varies from 0 to Tsize - 1 and
+'h' is the hash function.
+
+>> search for empty locations will be in the sequence h(k), h(k)+1, h(k)+2, 
+h(k)+3, h(k)+4, .......all mod Tsize
+
+II. Quadratic probing
+---------------------
+>> H(k,i) = (h(k) + i^2) mod Tsize ; i varies from 0 to Tsize - 1 and
+'h' is the hash function.
+
+>> search for empty locations will be in the sequence h(k), h(k)+1, h(k)+4, 
+h(k)+9, h(k)+16, .......all mod Tsize
+III. Double Hashing
+--------------------
+>> In double hashing increment factor is not constant as in linear or quadratic
+probing, but it depends on the key. The increment factor is another hash function
+and hence the name double hashing.
+
+>> H(k,i) = (h(k) + i h'(k)) mod Tsize ; i varies from 0 to Tsize - 1, 
+'h' is the hash function, h' is the secondary hash function.
+
+>> search for empty locations will be in the sequence h(k), h(k)+h'(k), 
+	h(k)+2h'(k), h(k)+3h'(k), ......
+	
+hashing using STL
+-----------------
+>> we can use maps for hashing.
+1. MAPS  2. UNORDERED MAPS
+
+>> map work as key value pair.
+>> 
+-----------------------------------------------------------------------------------
+
+							Templates
+							=========
+>> A template is a simple yet very powerful tool in C++. The simple idea is to pass data type as a parameter so that we don’t need to write the same code for different data types. For example, a software company may need to sort() for different data types. Rather than writing and maintaining multiple codes, we can write one sort() and pass data type as a parameter. 
+C++ adds two new keywords to support templates: ‘template’ and ‘typename’. The second keyword can always be replaced by the keyword ‘class’.
+
+>> How Do Templates Work?
+ 
+Templates are expanded at compiler time. This is like macros. The difference is, that the compiler does type checking before template expansion. The idea is simple, source code contains only function/class, but compiled code may contain multiple copies of the same function/class. 
+
+>> Can there be more than one argument to templates? 
+	Yes
+>> Can we specify a default value for template arguments? 
+	Yes
+	
+i. 	Function templates
+ii. Class Templates
+
+					i. Function Templates
+					---------------------
+//code
+-------
+#include <iostream>
+using namespace std;
+
+// One function works for all data types.  This would work
+// even for user defined types if operator '>' is overloaded
+template <typename T> T myMax(T a,T b){
+   // cout<<"type is "<<string(typeid(a).name())<<endl;
+    return a > b ? a : b;
+}
+int main(){
+
+    cout<<"max element is "<<myMax<int>(3,4)<<endl;
+    cout<<"max element is "<<myMax<double>(3.0,4.0)<<endl;
+    cout<<"max element is "<<myMax<char>('g','e')<<endl;
+    return 0;
+}
+
+					ii. Class Templates
+					-------------------
+>> Class Templates like function templates, class templates are useful when a class defines something that is independent of the data type. Can be useful for classes like LinkedList, BinaryTree, Stack, Queue, Array, etc. 
+
+>> Can there be more than one argument to templates? 
+Yes, like normal parameters, we can pass more than one data type as arguments to templates.
+
+//code
+------
+#include <iostream>
+using namespace std;
+
+// One function works for all data types.  This would work
+// even for user defined types if operator '>' is overloaded
+template <typename T> T myMax(T a,T b){
+   // cout<<"type is "<<string(typeid(a).name())<<endl;
+    return a > b ? a : b;
+}
+
+//class template with one argument
+template <typename T> class Array{
+private:
+    T *ptr;
+    int size;
+public:
+    Array(T arr[],int s);
+    void print();
+};
+template <typename T> Array<T>::Array(T arr[],int s){
+    ptr = new T[s];
+    size = s;
+    for(int i = 0;i < size;i++){
+        ptr[i] = arr[i];
+    }
+}
+template <typename T> void Array<T>:: print(){
+    for(int i = 0; i < size;i++){
+        cout<<ptr[i]<<" ";
+    }
+    cout<<endl;
+}
+
+//we can replace keyword typename with class. These keywords can be interchanged.
+template <class C1> class dummy{
+private:
+    C1 var;
+public:
+    dummy(C1 v);
+    void print();
+};
+template <class C1> dummy<C1>::dummy(C1 v){
+    var = v;
+    cout<<"constructor called"<<endl;
+} 
+template <class C1> void dummy<C1>::print(){
+    cout << "val = "<<var<<endl;
+}
+
+//multiple arguments in template
+//class can be replaced with typename
+template <class V,class U> class multipleArg{
+private:
+    V var1;
+    U var2;
+public:
+    multipleArg(V vbl1,U vbl2);
+    void print();
+};
+
+template <class V,class U> multipleArg<V,U>::multipleArg(V vbl1,U vbl2){
+    var1 = vbl1;
+    var2 = vbl2;
+    cout<<"constructor called"<<endl;
+}
+template <class V,class U> void multipleArg<V,U>::print(){
+    cout<<"var1 = "<<var1<<" "<<"var2 = "<<var2<<endl;
+}
+
+//default argument
+template <typename S,typename T = char> class defArg{
+private:
+    S var1;
+    T var2;
+public:
+    defArg(S v1,T v2){
+        var1 = v1;
+        var2 = v2;
+    }
+    void print(){
+         cout<<"var1 = "<<var1<<" "<<"var2 = "<<var2<<endl;
+    }
+};
+int main(){
+    //function template
+    cout<<"test function template"<<endl;
+    cout<<"max element is "<<myMax<int>(3,4)<<endl;
+    cout<<"max element is "<<myMax<double>(3.0,4.0)<<endl;
+    cout<<"max element is "<<myMax<char>('g','e')<<endl;
+    //class template
+    cout<<"test class template"<<endl;
+    int arr[] = {1,2,3,4,5};
+    Array<int> A(arr,sizeof(arr)/sizeof(arr[0]));
+    A.print();
+    char carr[] = {'a','b','c','d','e'};
+    Array<char> C(carr,sizeof(carr)/sizeof(carr[0]));
+    C.print();
+    cout<<"test dummy"<<endl;
+     dummy <int> D(5);
+     D.print();
+    /*test multiple arguments in template*/
+    cout<<"test multiple arguments"<<endl;
+    multipleArg<char,int> M('x',6);
+    M.print();
+    /*test default argument in template*/
+    cout<<"test default arguments"<<endl;
+    defArg<int> DF(3,'y');
+    DF.print();
+    return 0;
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+							Tries
+							=====
